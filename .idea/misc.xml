@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EclipseCodeFormatter">
+    <option name="defaultSettings" value="true" />
+    <option name="enableJSFormatting" value="true" />
+    <option name="id" value="1445559730091" />
+    <option name="name" value="default" />
+    <option name="pathToConfigFileJS" value="$PROJECT_DIR$/../../opt/wxl.xml" />
+    <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../../opt/wxl.xml" />
+    <option name="selectedJavaProfile" value="wxl" />
+    <option name="selectedJavaScriptProfile" value="wxl" />
+  </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
+  </component>
+</project>
