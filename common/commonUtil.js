@@ -1,7 +1,7 @@
 'use strict';
 
-const xml2js = require('xml2js');
-const Promise = require('bluebird');
+import xml2js from 'xml2js';
+import Promise from 'bluebird';
 
 exports.parseXMLAsync = function (xml)
 {
@@ -9,14 +9,21 @@ exports.parseXMLAsync = function (xml)
     {
         xml2js.parseString(xml, {trim: true}, function (err, content)
         {
-            if (err) {reject(err)}
-            else {resolve(content)}
+            if (err)
+            {
+                reject(err)
+            }
+            else
+            {
+                resolve(content)
+            }
         })
     })
 };
 
 function formatMessage(result)
 {
+    console.log(result);
     let message = {};
 
     if (typeof result === 'object')
@@ -55,7 +62,6 @@ function formatMessage(result)
             }
         }
     }
-
     return message
 }
 

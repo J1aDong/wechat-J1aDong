@@ -52,10 +52,7 @@ async function Wechat(opts)
     console.log("getAccessToken-->" + content);
 
     // jsonStr->jsO
-    if (this.isValidAccessToken(content))
-    {
-
-    } else
+    if (!this.isValidAccessToken(content))
     {
         // 得到access_token，并且存储下来
         let result = await this.fetchAccessToken();

@@ -3,6 +3,7 @@
 
 import sha1 from 'sha1';
 import Wechat from './wechat';
+import {parseXMLAsync, formatMessage} from '../common/commonUtil';
 
 module.exports = function (opts)
 {
@@ -11,7 +12,7 @@ module.exports = function (opts)
     /**
      * 微信验证
      */
-    return function async(ctx, next)
+    return async function (ctx, next)
     {
         /**
          * 微信验证
@@ -29,14 +30,51 @@ module.exports = function (opts)
         let str = [token, timestamp, nonce].sort().join('');
         let sha = sha1(str);
 
-        console.log("str-->" + str + ",signature-->" + signature);
+        console.log("sha-->" + sha + ",signature-->" + signature);
 
-        if (sha === signature)
+        // 微信发过来的请求为GET
+        if (ctx.method === 'GET')
         {
-            ctx.body = echostr + ''
-        } else
+            if (sha === signature)
+            {
+                ctx.body = echostr + ''
+            } else
+            {
+                ctx.body = 'wrong'
+            }
+        }
+        // 微信发过来的请求为POST
+        else if (ctx.method === 'POST')
         {
-            ctx.body = 'wrong'
+            let body = ctx.text;
+            console.log('body为' + body);
+
+            let content = await parseXMLAsync(body);
+
+            console.log(content);
+
+            content = formatMessage(content.xml);
+
+            let fromUserName = content.FromUserName;
+            let toUserName = content.ToUserName;
+            let event = content.Event;
+            let msgType = content.MsgType;
+            let now = new Date().getTime();
+
+            if (event === 'subscribe')
+            {
+                if (msgType === 'event')
+                {
+                    console.log('请求为post' + JSON.stringify(content));
+                    ctx.body = '<xml>' +
+                        '<ToUserName><![CDATA[' + fromUserName + ']]></ToUserName>' +
+                        '<FromUserName><![CDATA[' + toUserName + ']]></FromUserName>' +
+                        '<CreateTime>' + now + '</CreateTime>' +
+                        '<MsgType><![CDATA[text]]></MsgType>' +
+                        '<Content><![CDATA[' + '欢迎来到这里，愿你被世界温柔以待' + ']]></Content>' +
+                        '</xml>';
+                }
+            }
         }
     }
 };
