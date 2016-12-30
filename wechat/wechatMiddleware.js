@@ -5,6 +5,7 @@ import sha1 from "sha1";
 import Wechat from "./wechat";
 import {parseXMLAsync, formatMessage} from "../common/commonUtil";
 import Mongo from "./mongo";
+import checkMessage from './checkmessage';
 
 module.exports = function (opts)
 {
@@ -57,26 +58,14 @@ module.exports = function (opts)
 
             content = formatMessage(content.xml);
 
-            let fromUserName = content.FromUserName;
-            let toUserName = content.ToUserName;
-            let event = content.Event;
-            let msgType = content.MsgType;
-            let now = new Date().getTime();
+            let option = {
+                'content': content,
+                'ctx': ctx,
+                'next': next,
+            };
 
-            if (event === 'subscribe')
-            {
-                if (msgType === 'event')
-                {
-                    console.log('请求为post' + JSON.stringify(content));
-                    ctx.body = '<xml>' +
-                        '<ToUserName><![CDATA[' + fromUserName + ']]></ToUserName>' +
-                        '<FromUserName><![CDATA[' + toUserName + ']]></FromUserName>' +
-                        '<CreateTime>' + now + '</CreateTime>' +
-                        '<MsgType><![CDATA[text]]></MsgType>' +
-                        '<Content><![CDATA[' + '欢迎来到这里，愿你被世界温柔以待' + ']]></Content>' +
-                        '</xml>';
-                }
-            }
+            checkMessage(option);
+
         }
     }
 };

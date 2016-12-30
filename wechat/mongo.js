@@ -9,20 +9,13 @@ async function Mongo()
     mongoose.Promise = Promise;
     mongoose.connect(Config.mongodb.url, {auth: {authdb: "admin"}});
     let db = mongoose.connection;
-    // 连接错误
     let result = await connectMongo(db);
     if (result)
     {
-        let kittySchema = mongoose.Schema({
-            name: String
-        });
-        let Kitten = mongoose.model('Kitten', kittySchema);
-        let silence = new Kitten({name: 'Silence'});
-        silence.save(function (err, silence)
-        {
-            if (err) return console.error(err);
-            if (silence) console.log(silence);
-        })
+        console.log('连接成功');
+    } else
+    {
+        console.log('连接失败');
     }
 }
 
