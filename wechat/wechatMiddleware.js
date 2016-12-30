@@ -1,13 +1,15 @@
 //generate
 'use strict';
 
-import sha1 from 'sha1';
-import Wechat from './wechat';
-import {parseXMLAsync, formatMessage} from '../common/commonUtil';
+import sha1 from "sha1";
+import Wechat from "./wechat";
+import {parseXMLAsync, formatMessage} from "../common/commonUtil";
+import Mongo from "./mongo";
 
 module.exports = function (opts)
 {
     let wechat = new Wechat(opts);
+    let mongo = new Mongo();
 
     /**
      * 微信验证

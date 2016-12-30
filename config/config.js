@@ -11,13 +11,16 @@ const config = {
         token: '991383877',
         getAccessToken: function ()
         {
-            return util.readFileAsync(wechat_file,'utf-8');
+            return util.readFileAsync(wechat_file, 'utf-8');
         },
         saveAccessToken: function (data)
         {
             data = JSON.stringify(data);
             return util.writeFileAsync(wechat_file, data);
         }
+    },
+    mongodb: {
+        url: "mongodb://admin:GL1Xy1tiI6KJ@118.178.186.169:27017/weixin"
     }
 };
 

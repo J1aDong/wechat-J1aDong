@@ -38,4 +38,4 @@ app.use(wechat(config.wechat));
 // 监听8080端口，配合nginx来映射到80端口
 app.listen(parseInt(process.env.PORT) || 8080);
 
-console.log('Listening:32768');
+console.log('Listening:');
